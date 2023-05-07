@@ -2,19 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClassesResource\Pages;
-use App\Filament\Resources\ClassesResource\RelationManagers;
-use App\Models\Classes;
-use Faker\Provider\ar_EG\Text;
 use Filament\Forms;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Classes;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Faker\Provider\ar_EG\Text;
+use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ClassesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ClassesResource\RelationManagers;
 
 class ClassesResource extends Resource
 {
@@ -40,8 +41,7 @@ class ClassesResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->label('Nombre')
-
+                    ->label('Nombre')
                     ->sortable()
                     ->searchable()
 
@@ -51,6 +51,7 @@ class ClassesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

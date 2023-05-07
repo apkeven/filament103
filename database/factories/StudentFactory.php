@@ -24,6 +24,8 @@ class StudentFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'phone_number' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
+            'class_id' => 5,
+            'section_id' => 2,
 
         ];
     }

@@ -8,10 +8,13 @@ use App\Models\Classes;
 use App\Models\Section;
 use App\Models\Student;
 use Filament\Resources\Form;
+use PHPUnit\Event\Code\Test;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\StudentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -40,7 +43,7 @@ class StudentResource extends Resource
                 ->placeholder(__('Correo Electronico')),
                 TextInput::make('phone_number')
                 ->label('Telefono')
-                //->tel()
+                ->tel()
                 ->required()
                 ->unique(Student::class, 'phone_number')
                 ->placeholder(__('Telefono')),
@@ -74,13 +77,42 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->label('Nombre')
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
+                    TextColumn::make('email')
+                    ->label('Correo Electronico')
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
+                    TextColumn::make('phone_number')
+                    ->label('Telefono')
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
+                    TextColumn::make('address')
+                    ->label('Direccion')
+                    ->searchable()
+                    ->toggleable()
+                    ->wrap()
+                    ->sortable(),
+                    TextColumn::make('class.name')
+                    ->label('Clase')
+                    ->searchable()
+                    ->sortable(),
+                    TextColumn::make('section.name')
+                    ->label('Seccion')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

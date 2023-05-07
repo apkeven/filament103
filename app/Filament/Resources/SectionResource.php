@@ -4,23 +4,26 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Classes;
+use App\Models\Section;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\EditAction;
-use App\Filament\Resources\ClassesResource\Pages;
+use App\Filament\Resources\SectionResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\ClassesResource\RelationManagers;
+use App\Filament\Resources\SectionResource\RelationManagers;
 use App\Filament\Resources\SectionResource\Pages\EditSection;
 
-class ClassesResource extends Resource
+
+
+class SectionResource extends Resource
 {
-    protected static ?string $model = Classes::class;
+    protected static ?string $model = Section::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -32,8 +35,10 @@ class ClassesResource extends Resource
                     ->label('Nombre')
                     ->autofocus()
                     ->required()
-                    ->unique(Classes::class, 'name')
-                    ->placeholder(__('Nombre')),
+                    ->unique(Section::class, 'name')
+                    ->placeholder(__('Ingrese Nombre')),
+                    Select::make('class_id')
+                    ->relationship('class', 'name')
             ]);
     }
 
@@ -43,9 +48,12 @@ class ClassesResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label('Nombre')
-                    ->sortable()
                     ->searchable()
-
+                    ->sortable(),
+                    TextColumn::make('class.name')
+                    ->label('Clase')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -69,9 +77,9 @@ class ClassesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClasses::route('/'),
-            'create' => Pages\CreateClasses::route('/create'),
-            'edit' => Pages\EditClasses::route('/{record}/edit'),
+            'index' => Pages\ListSections::route('/'),
+            'create' => Pages\CreateSection::route('/create'),
+            'edit' => Pages\EditSection::route('/{record}/edit'),
         ];
     }
 }

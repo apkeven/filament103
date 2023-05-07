@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
-            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
+            $table->foreignId('section_id')->constrained('sections');
+            $table->foreignId('class_id')->constrained('classes');
+            //$table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
+            //$table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->string('name');
             $table->string('email');
             $table->string('address');
